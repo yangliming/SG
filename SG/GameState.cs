@@ -13,11 +13,14 @@ namespace SG
         public static List<GameUnit> GameUnitsPlayers;
         public static List<GameUnit> GameUnitsEnemies;
 
+        public static Dictionary<GameItem, int> GameItemsPlayer;
+
         static GameState()
         {
             GameUnitsInPlay = new List<GameUnit>();
             GameUnitsPlayers = new List<GameUnit>();
             GameUnitsEnemies = new List<GameUnit>();
+            GameItemsPlayer = new Dictionary<GameItem, int>();
         }
 
         public static bool Running()
@@ -63,6 +66,22 @@ namespace SG
         {
             GameUnitsInPlay.Add(enemy);
             GameUnitsEnemies.Add(enemy);
+        }
+
+        public static void AddItem(GameItem item, int amount = 1)
+        {
+            if (amount < 1)
+                return;
+
+            if (!GameItemsPlayer.ContainsKey(item))
+                GameItemsPlayer.Add(item, amount);
+            else
+                GameItemsPlayer[item] += amount;
+        }
+
+        public static List<KeyValuePair<GameItem, int>> GetItems()
+        {
+            return GameItemsPlayer.ToList();
         }
 
         public static void RemoveGameUnit(GameUnit gu)

@@ -28,7 +28,7 @@ namespace SG
         }
 
         public abstract void Action();
-        public abstract string ToString();
+        public abstract override string ToString();
 
         public void CheckDefeated()
         {

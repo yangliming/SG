@@ -36,8 +36,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fighter.cs" />
+    <Compile Include="GameItem.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameUnit.cs" />
+    <Compile Include="Items.cs" />
+    <Compile Include="PlayableUnit.cs" />
     <Compile Include="Rat.cs" />
     <Compile Include="SG.cs" />
   </ItemGroup>
