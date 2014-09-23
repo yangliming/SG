@@ -43,6 +43,9 @@
     <Compile Include="PlayableUnit.cs" />
     <Compile Include="Rat.cs" />
     <Compile Include="SG.cs" />
+    <Compile Include="Word.cs" />
+    <Compile Include="WordHandler.cs" />
+    <Compile Include="Words.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

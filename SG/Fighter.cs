@@ -36,7 +36,9 @@ namespace SG
         GetAction:
             System.Console.WriteLine("Options: ");
             System.Console.WriteLine("A: Attack");
-            System.Console.WriteLine("B: Items");
+            System.Console.WriteLine("B: Skills");
+            System.Console.WriteLine("C: Words");
+            System.Console.WriteLine("D: Items");
             System.Console.WriteLine();
 
             char cmd = char.ToUpper(System.Console.ReadKey(true).KeyChar);
@@ -70,7 +72,23 @@ namespace SG
                     gu_enemy.CheckDefeated();
 
                     break;
+
                 case 'B':
+
+
+                    break;
+
+                case 'C':
+
+                    System.Console.WriteLine("Type a word to use:");
+
+                    Word word = WordHandler.TypeWord();
+                    if (word != null)
+                        word.Action();
+
+                    break;
+
+                case 'D':
                     if (GameState.GameItemsPlayer.Count == 0)
                     {
                         System.Console.WriteLine("No Items!");

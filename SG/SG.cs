@@ -15,6 +15,7 @@ namespace SG
             GameState.AddItem(new Rock(), 3);
             GameState.AddEnemy(new Rat());
             GameState.AddEnemy(new Rat());
+            WordHandler.AddWord(new Strength());
 
             while (GameState.Running())
             {
