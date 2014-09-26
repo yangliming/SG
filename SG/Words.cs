@@ -22,10 +22,22 @@ namespace SG
             : base("Synnies")
         {
         }
+
+        public override void Action()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string Description()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class Strength : Word
     {
+        private const int StrengthAmount = 1;
+
         public Strength()
             : base("Strength")
         {
@@ -33,7 +45,9 @@ namespace SG
 
         public override void Action()
         {
-            System.Console.WriteLine("You used Strength!");
+            IOUtils.WriteLine("You used Strength!");
+            IOUtils.WriteLine("Attack increased by " + StrengthAmount + "!");
+            GameState.GamePlayer.gu_attack += StrengthAmount;
         }
 
         public override string Description()

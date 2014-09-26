@@ -34,7 +34,7 @@ namespace SG
         {
             if (gu_currenthp <= 0)
             {
-                System.Console.WriteLine(gu_type + " defeated!");
+                IOUtils.WriteLine(gu_type + " defeated!");
             }
         }
     }

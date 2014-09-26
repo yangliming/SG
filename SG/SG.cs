@@ -10,7 +10,6 @@ namespace SG
     {
         public static void Main()
         {
-            GameState.AddPlayer(new Fighter());
             GameState.AddItem(new Potion(), 5);
             GameState.AddItem(new Rock(), 3);
             GameState.AddEnemy(new Rat());

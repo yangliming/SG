@@ -18,29 +18,23 @@ namespace SG
 
         public override void Action()
         {
-            System.Console.WriteLine("Rat's Turn!");
-            System.Console.WriteLine();
-            System.Console.ReadKey(true);
+            IOUtils.WriteLine("Rat's Turn!");
+            IOUtils.WriteLine();
+            IOUtils.ReadKey();
 
-            var rand = new Random();
-            int toAttack = rand.Next(GameState.GameUnitsPlayers.Count);
-
-            System.Console.WriteLine("Rat Attacks " + GameState.GameUnitsPlayers[toAttack].gu_type);
-            System.Console.WriteLine();
-
-            var gu_player = GameState.GameUnitsPlayers[toAttack];
-
+            var gu_player = GameState.GamePlayer;
+            IOUtils.WriteLine("Rat Attacks " + gu_player.gu_type);
             int damage = this.gu_attack - gu_player.gu_defense;
+            IOUtils.ReadKey();
 
             if (damage < 1)
                 damage = 1;
 
             gu_player.gu_currenthp -= damage;
-            System.Console.WriteLine("Rat did " + damage + " points of damage!");
-            System.Console.WriteLine();
+            IOUtils.WriteLine("Rat did " + damage + " points of damage!");
 
-            System.Console.ReadKey(true);
-            System.Console.Clear();
+            IOUtils.ReadKey();
+            IOUtils.Clear();
         }
 
         public override string ToString()

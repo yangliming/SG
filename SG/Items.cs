@@ -17,30 +17,11 @@ namespace SG
 
         public override bool Use()
         {
-            System.Console.WriteLine("Who do you want to use potion on?");
-            for (int i = 1; i <= GameState.GameUnitsPlayers.Count; i++)
-                System.Console.WriteLine(i + ": " + GameState.GameUnitsPlayers[i - 1].ToString());
-            System.Console.WriteLine("B: Back");
-            System.Console.WriteLine();
-
-            int toUse;
-            char cmd;
-            do
-            {
-                cmd = char.ToUpper(System.Console.ReadKey(true).KeyChar);
-
-                if (cmd == 'B')
-                    return false;
-            }
-            while (!int.TryParse(cmd.ToString(), out toUse)
-                || toUse < 1
-                || toUse > GameState.GameUnitsPlayers.Count);
-
             int heal;
-            var gu_player = GameState.GameUnitsPlayers[toUse - 1];
+            var gu_player = GameState.GamePlayer;
             if (gu_player.gu_totalhp == gu_player.gu_currenthp)
             {
-                System.Console.WriteLine("Unit already at full hp!");
+                IOUtils.WriteLine("Unit already at full hp!");
                 return false;
             }
             else if (gu_player.gu_currenthp + HealAmount > gu_player.gu_totalhp)
@@ -50,7 +31,7 @@ namespace SG
 
             gu_player.gu_currenthp += heal;
 
-            System.Console.WriteLine("Healed " + gu_player.gu_type + " by " + heal + " points!");
+            IOUtils.WriteLine("Healed " + gu_player.gu_type + " by " + heal + " points!");
 
             base.DecrementCount();
             return true;
@@ -73,17 +54,17 @@ namespace SG
 
         public override bool Use()
         {
-            System.Console.WriteLine("Who do you want to use rock on?");
+            IOUtils.WriteLine("Who do you want to use rock on?");
             for (int i = 1; i <= GameState.GameUnitsEnemies.Count; i++)
-                System.Console.WriteLine(i + ": " + GameState.GameUnitsEnemies[i - 1].ToString());
-            System.Console.WriteLine("B: Back");
-            System.Console.WriteLine();
+                IOUtils.WriteLine(i + ": " + GameState.GameUnitsEnemies[i - 1].ToString());
+            IOUtils.WriteLine("B: Back");
+            IOUtils.WriteLine();
 
             int toUse;
             char cmd;
             do
             {
-                cmd = char.ToUpper(System.Console.ReadKey(true).KeyChar);
+                cmd = char.ToUpper(IOUtils.ReadKey().KeyChar);
 
                 if (cmd == 'B')
                     return false;
@@ -96,7 +77,7 @@ namespace SG
             int damage = DamageAmount - gu_enemy.gu_defense;
             gu_enemy.gu_currenthp -= damage;
 
-            System.Console.WriteLine("Damaged " + gu_enemy.gu_type + " by " + damage + " points!");
+            IOUtils.WriteLine("Damaged " + gu_enemy.gu_type + " by " + damage + " points!");
 
             base.DecrementCount();
             return true;

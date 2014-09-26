@@ -116,7 +116,7 @@ namespace SG
 
                 while (true)
                 {
-                    ConsoleKeyInfo key = System.Console.ReadKey(true);
+                    ConsoleKeyInfo key = IOUtils.ReadKey();
                     char c = char.ToUpper(key.KeyChar);
 
                     if (key.Key == ConsoleKey.Escape)

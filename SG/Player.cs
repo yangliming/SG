@@ -6,55 +6,55 @@ using System.Threading.Tasks;
 
 namespace SG
 {
-    public class Fighter : PlayableUnit
+    public class Player : PlayableUnit
     {
 
-        public Fighter()
+        public Player()
             : base(10,
                    3,
                    0,
-                   "Fighter")
+                   "Player")
         {
         }
 
         public override void Action()
         {
-            System.Console.WriteLine("Fighter's Turn!");
+            IOUtils.WriteLine("Player's Turn!");
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine("HP : " + gu_currenthp + "/" + gu_totalhp);
+            IOUtils.SetForegroundColor(ConsoleColor.Red);
+            IOUtils.WriteLine("HP : " + gu_currenthp + "/" + gu_totalhp);
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            System.Console.WriteLine("Attack: " + gu_attack);
+            IOUtils.SetForegroundColor(ConsoleColor.Yellow);
+            IOUtils.WriteLine("Attack: " + gu_attack);
 
-            Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.WriteLine("Defense : " + gu_defense);
+            IOUtils.SetForegroundColor(ConsoleColor.Green);
+            IOUtils.WriteLine("Defense : " + gu_defense);
 
-            System.Console.WriteLine();
-            Console.ResetColor();
+            IOUtils.WriteLine();
+            IOUtils.ResetColor();
 
         GetAction:
-            System.Console.WriteLine("Options: ");
-            System.Console.WriteLine("A: Attack");
-            System.Console.WriteLine("B: Skills");
-            System.Console.WriteLine("C: Words");
-            System.Console.WriteLine("D: Items");
-            System.Console.WriteLine();
+            IOUtils.WriteLine("Options: ");
+            IOUtils.WriteLine("A: Attack");
+            IOUtils.WriteLine("B: Skills");
+            IOUtils.WriteLine("C: Words");
+            IOUtils.WriteLine("D: Items");
+            IOUtils.WriteLine();
 
-            char cmd = char.ToUpper(System.Console.ReadKey(true).KeyChar);
+            char cmd = char.ToUpper(IOUtils.ReadKey().KeyChar);
 
             switch (cmd)
             {
                 case 'A':
-                    System.Console.WriteLine("Choose who to Attack");
+                    IOUtils.WriteLine("Choose who to Attack");
                     for (int i = 1; i <= GameState.GameUnitsEnemies.Count; i++)
-                        System.Console.WriteLine(i + ": " + GameState.GameUnitsEnemies[i - 1].ToString());
-                    System.Console.WriteLine();
+                        IOUtils.WriteLine(i + ": " + GameState.GameUnitsEnemies[i - 1].ToString());
+                    IOUtils.WriteLine();
 
                     int enemy;
                     do
                     {
-                        cmd = System.Console.ReadKey(true).KeyChar;
+                        cmd = IOUtils.ReadKey().KeyChar;
                     }
                     while (!int.TryParse(cmd.ToString(), out enemy)
                         || enemy < 1
@@ -68,7 +68,7 @@ namespace SG
                         damage = 1;
                         
                     gu_enemy.gu_currenthp -= damage;
-                    System.Console.WriteLine("Fighter did " + damage + " points of damage!");
+                    IOUtils.WriteLine("Player did " + damage + " points of damage!");
                     gu_enemy.CheckDefeated();
 
                     break;
@@ -80,7 +80,7 @@ namespace SG
 
                 case 'C':
 
-                    System.Console.WriteLine("Type a word to use:");
+                    IOUtils.WriteLine("Type a word to use:");
 
                     Word word = WordHandler.TypeWord();
                     if (word != null)
@@ -91,23 +91,23 @@ namespace SG
                 case 'D':
                     if (GameState.GameItemsPlayer.Count == 0)
                     {
-                        System.Console.WriteLine("No Items!");
+                        IOUtils.WriteLine("No Items!");
                         goto GetAction;
                     }
 
-                    System.Console.WriteLine("Inventory:");
+                    IOUtils.WriteLine("Inventory:");
                     var items = GameState.GetItems();
 
 
                     for (int i = 1; i <= items.Count; i++)
-                        System.Console.WriteLine(i + ": " + items[i - 1].Key.ToString() + ", " + items[i - 1].Value + " remaining");
-                    System.Console.WriteLine("B: Back");
-                    System.Console.WriteLine();
+                        IOUtils.WriteLine(i + ": " + items[i - 1].Key.ToString() + ", " + items[i - 1].Value + " remaining");
+                    IOUtils.WriteLine("B: Back");
+                    IOUtils.WriteLine();
 
                     int item;
                     do
                     {
-                        cmd = char.ToUpper(System.Console.ReadKey(true).KeyChar);
+                        cmd = char.ToUpper(IOUtils.ReadKey().KeyChar);
                         if (cmd == 'B')
                             goto GetAction;
                     }
@@ -122,8 +122,8 @@ namespace SG
                     goto GetAction;
             }
 
-            System.Console.ReadKey(true);
-            System.Console.Clear();
+            IOUtils.ReadKey();
+            IOUtils.Clear();
         }
     }
 }

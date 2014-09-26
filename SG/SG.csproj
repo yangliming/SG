@@ -35,7 +35,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fighter.cs" />
+    <Compile Include="IOUtils.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="GameItem.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameUnit.cs" />
