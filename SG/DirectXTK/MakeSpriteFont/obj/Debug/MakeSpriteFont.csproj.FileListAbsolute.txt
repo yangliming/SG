@@ -1,0 +1,5 @@
+C:\Users\Alexander Yang\Desktop\DirectXTK\MakeSpriteFont\bin\Debug\MakeSpriteFont.exe
+C:\Users\Alexander Yang\Desktop\DirectXTK\MakeSpriteFont\bin\Debug\MakeSpriteFont.pdb
+C:\Users\Alexander Yang\Desktop\DirectXTK\MakeSpriteFont\obj\Debug\MakeSpriteFont.csprojResolveAssemblyReference.cache
+C:\Users\Alexander Yang\Desktop\DirectXTK\MakeSpriteFont\obj\Debug\MakeSpriteFont.exe
+C:\Users\Alexander Yang\Desktop\DirectXTK\MakeSpriteFont\obj\Debug\MakeSpriteFont.pdb
