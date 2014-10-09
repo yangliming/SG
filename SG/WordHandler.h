@@ -11,21 +11,21 @@ public:
 	WordHandler();
 	~WordHandler();
 
-	void AddWord(Word* word);
-	Word* NextChar(wchar_t c);
+	void addWord(Word* word);
+	Word* nextChar(wchar_t c);
 private:
 	class WordTreeNode
 	{
 	public:
-		wchar_t NodeChar;
-		WordTreeNode* Parent;
-		std::list<WordTreeNode*> Children;
+		wchar_t m_nodechar;
+		WordTreeNode* m_parent;
+		std::list<WordTreeNode*> m_children;
 
 		WordTreeNode(wchar_t c, WordTreeNode* parent = NULL);
 		~WordTreeNode();
 
-		bool ShallowContains(wchar_t c) const;
-		WordTreeNode* ShallowGetNode(wchar_t c);
+		bool shallowContains(wchar_t c) const;
+		WordTreeNode* shallowGetNode(wchar_t c);
 
 		bool operator==(const WordTreeNode& node);
 		bool operator!=(const WordTreeNode& node);
@@ -36,18 +36,18 @@ private:
 		WordTree();
 		~WordTree();
 
-		void AddWord(std::wstring word);
-		std::wstring NextChar(wchar_t c);
+		void addWord(std::wstring word);
+		std::wstring nextChar(wchar_t c);
 
 	private:
-		WordTreeNode Root;
-		std::list<WordTreeNode*> Pointers;
+		WordTreeNode m_root;
+		std::list<WordTreeNode*> m_pointers;
 
-		std::wstring GetWord(WordTreeNode* word);
+		std::wstring getWord(WordTreeNode* word);
 	};
 
-	std::map<std::wstring, Word*> Words;
-	WordTree Characters;
+	std::map<std::wstring, Word*> m_words;
+	WordTree m_characters;
 };
 
 #endif // WORDHANDLER_H

@@ -6,16 +6,16 @@
 class GameItem
 {
 public:
-	std::wstring Type;
+	std::wstring m_type;
 
 	GameItem(std::wstring type);
 	~GameItem();
 
-	virtual bool Use() = 0;
-	virtual std::wstring Description() = 0;
-	virtual std::wstring ToString();
+	virtual bool use() = 0;
+	virtual std::wstring description() = 0;
+	virtual std::wstring toString();
 
-	void DecrementCount();
+	void decrementCount();
 	bool operator==(const GameItem& other);
 	bool operator!=(const GameItem& other);
 };

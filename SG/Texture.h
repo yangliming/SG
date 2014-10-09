@@ -10,36 +10,36 @@ public:
 	Texture(std::wstring filename, int x, int y, int zlevel, int width, int height, bool draw);
 	~Texture();
 
-	void SetDraw(bool draw);
-	void SetX(int x);
-	void SetY(int y);
-	void SetZLevel(int zlevel);
-	void SetWidth(int width);
-	void SetHeight(int height);
+	void setDraw(bool draw);
+	void setX(int x);
+	void setY(int y);
+	void setZLevel(int zlevel);
+	void setWidth(int width);
+	void setHeight(int height);
 
-	const std::wstring GetFile() const;
-	bool GetDraw() const;
-	int GetX() const;
-	int GetY() const;
-	int GetZLevel() const;
-	int GetWidth() const;
-	int GetHeight() const;
+	const std::wstring getFilename() const;
+	bool getDraw() const;
+	int getX() const;
+	int getY() const;
+	int getZLevel() const;
+	int getWidth() const;
+	int getHeight() const;
 private:
 
-	ID3D11Resource* Data;
-	ID3D11ShaderResourceView* ShaderResourceView;
+	ID3D11Resource* m_data;
+	ID3D11ShaderResourceView* m_shaderresourceview;
 
-	std::wstring Filename;
-	int ID;
+	std::wstring m_filename;
+	int m_id;
 
-	int X;
-	int Y;
-	int ZLevel;
-	int Width;
-	int Height;
-	bool Draw;
+	int m_x;
+	int m_y;
+	int m_zlevel;
+	int m_width;
+	int m_height;
+	bool m_draw;
 
-	void Load();
+	void load();
 };
 
 #endif // TEXTURE_H

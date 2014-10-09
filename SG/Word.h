@@ -6,12 +6,12 @@
 class Word
 {
 public:
-	std::wstring WordName;
+	std::wstring m_word;
 
 	Word(std::wstring word);
-	virtual void Action() = 0;
-	virtual std::wstring Description() = 0;
-	virtual std::wstring ToString();
+	virtual void action() = 0;
+	virtual std::wstring description() = 0;
+	virtual std::wstring toString();
 };
 
 #endif // WORD_H

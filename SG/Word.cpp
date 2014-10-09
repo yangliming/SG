@@ -1,11 +1,11 @@
 #include "Word.h"
 
 Word::Word(std::wstring word)
-: WordName(word)
+: m_word(word)
 {
 }
 
-std::wstring Word::ToString()
+std::wstring Word::toString()
 {
-	return WordName;
+	return m_word;
 }

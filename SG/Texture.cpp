@@ -2,99 +2,99 @@
 #include "GraphicHandler.h"
 
 Texture::Texture(std::wstring filename, int x, int y, int zlevel, int width, int height, bool draw)
-	: X(x), Y(y), ZLevel(zlevel), Width(width), Height(height), Draw(draw)
+	: m_x(x), m_y(y), m_zlevel(zlevel), m_width(width), m_height(height), m_draw(draw)
 {
-	Filename = L"Images/" + filename;
-	Load();
-	ID = GraphicHandler::AddTexture(ShaderResourceView, X, Y, ZLevel, Width, Height, Draw);
+	m_filename = L"Images/" + filename;
+	load();
+	m_id = GraphicHandler::AddTexture(m_shaderresourceview, m_x, m_y, m_zlevel, m_width, m_height, m_draw);
 }
 
 Texture::~Texture()
 {
-	GraphicHandler::RemoveTexture(ID);
-	if (Data != NULL)
-		Data->Release();
-	if (ShaderResourceView != NULL)
-		ShaderResourceView->Release();
+	GraphicHandler::RemoveTexture(m_id);
+	if (m_data != NULL)
+		m_data->Release();
+	if (m_shaderresourceview != NULL)
+		m_shaderresourceview->Release();
 }
 
-void Texture::SetDraw(bool draw)
+void Texture::setDraw(bool draw)
 {
-	Draw = draw;
-	GraphicHandler::ChangeTextureDraw(ID, draw);
+	m_draw = draw;
+	GraphicHandler::ChangeTextureDraw(m_id, draw);
 }
 
-void Texture::SetX(int x)
+void Texture::setX(int x)
 {
-	X = x;
-	GraphicHandler::ChangeTextureX(ID, x);
+	m_x = x;
+	GraphicHandler::ChangeTextureX(m_id, x);
 }
 
-void Texture::SetY(int y)
+void Texture::setY(int y)
 {
-	Y = y;
-	GraphicHandler::ChangeTextureY(ID, y);
+	m_y = y;
+	GraphicHandler::ChangeTextureY(m_id, y);
 }
 
-void Texture::SetZLevel(int zlevel)
+void Texture::setZLevel(int zlevel)
 {
-	ZLevel = zlevel;
-	GraphicHandler::ChangeTextureZLevel(ID, zlevel);
+	m_zlevel = zlevel;
+	GraphicHandler::ChangeTextureZLevel(m_id, zlevel);
 }
 
-void Texture::SetWidth(int width)
+void Texture::setWidth(int width)
 {
-	Width = width;
-	GraphicHandler::ChangeTextureWidth(ID, width);
+	m_width = width;
+	GraphicHandler::ChangeTextureWidth(m_id, width);
 }
 
-void Texture::SetHeight(int height)
+void Texture::setHeight(int height)
 {
-	Height = height;
-	GraphicHandler::ChangeTextureHeight(ID, height);
+	m_height = height;
+	GraphicHandler::ChangeTextureHeight(m_id, height);
 }
 
-const std::wstring Texture::GetFile() const
+const std::wstring Texture::getFilename() const
 {
-	return Filename;
+	return m_filename;
 }
 
-bool Texture::GetDraw() const
+bool Texture::getDraw() const
 {
-	return Draw;
+	return m_draw;
 }
 
-int Texture::GetX() const
+int Texture::getX() const
 {
-	return X;
+	return m_x;
 }
 
-int Texture::GetY() const
+int Texture::getY() const
 {
-	return Y;
+	return m_y;
 }
 
-int Texture::GetZLevel() const
+int Texture::getZLevel() const
 {
-	return ZLevel;
+	return m_zlevel;
 }
 
-int Texture::GetWidth() const
+int Texture::getWidth() const
 {
-	return Width;
+	return m_width;
 }
 
-int Texture::GetHeight() const
+int Texture::getHeight() const
 {
-	return Height;
+	return m_height;
 }
 
-void Texture::Load()
+void Texture::load()
 {
-	if (Data != NULL)
-		Data->Release();
-	if (ShaderResourceView != NULL)
-		ShaderResourceView->Release();
+	if (m_data != NULL)
+		m_data->Release();
+	if (m_shaderresourceview != NULL)
+		m_shaderresourceview->Release();
 
-	GraphicHandler::LoadTexture(Filename, &Data, &ShaderResourceView);
+	GraphicHandler::LoadTexture(m_filename, &m_data, &m_shaderresourceview);
 }

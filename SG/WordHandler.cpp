@@ -8,46 +8,46 @@ WordHandler::WordHandler()
 
 WordHandler::~WordHandler()
 {
-	auto iter = Words.begin();
+	auto iter = m_words.begin();
 
-	while (iter != Words.end())
+	while (iter != m_words.end())
 	{
 		delete iter->second;
 	}
 }
 
-void WordHandler::AddWord(Word* word)
+void WordHandler::addWord(Word* word)
 {
-	std::transform(word->WordName.begin(), word->WordName.end(), word->WordName.begin(), towlower);
-	Characters.AddWord(word->WordName);
-	Words[word->WordName] = word;
+	std::transform(word->m_word.begin(), word->m_word.end(), word->m_word.begin(), towlower);
+	m_characters.addWord(word->m_word);
+	m_words[word->m_word] = word;
 }
 
-Word* WordHandler::NextChar(wchar_t c)
+Word* WordHandler::nextChar(wchar_t c)
 {
 	c = towlower(c);
-	std::wstring word = Characters.NextChar(c);
+	std::wstring word = m_characters.nextChar(c);
 	if (word.empty())
 		return NULL;
 
-	return Words[word];
+	return m_words[word];
 }
 
 WordHandler::WordTreeNode::WordTreeNode(wchar_t c, WordTreeNode* parent)
-: NodeChar(c), Parent(parent)
+: m_nodechar(c), m_parent(parent)
 {
 }
 
 WordHandler::WordTreeNode::~WordTreeNode()
 {
-	if (Parent != NULL)
+	if (m_parent != NULL)
 	{
-		delete Parent;
-		Parent = NULL;
+		delete m_parent;
+		m_parent = NULL;
 	}
 
-	auto iter = Children.begin();
-	while (iter != Children.end())
+	auto iter = m_children.begin();
+	while (iter != m_children.end())
 	{
 		if (*iter != NULL)
 		{
@@ -57,25 +57,25 @@ WordHandler::WordTreeNode::~WordTreeNode()
 	}
 }
 
-bool WordHandler::WordTreeNode::ShallowContains(wchar_t c) const
+bool WordHandler::WordTreeNode::shallowContains(wchar_t c) const
 {
 	c = towlower(c);
-	auto iter = Children.begin();
-	while (iter != Children.end())
+	auto iter = m_children.begin();
+	while (iter != m_children.end())
 	{
-		if ((*iter)->NodeChar == c)
+		if ((*iter)->m_nodechar == c)
 			return true;
 	}
 	return false;
 }
 
-WordHandler::WordTreeNode* WordHandler::WordTreeNode::ShallowGetNode(wchar_t c)
+WordHandler::WordTreeNode* WordHandler::WordTreeNode::shallowGetNode(wchar_t c)
 {
 	c = towlower(c);
-	auto iter = Children.begin();
-	while (iter != Children.end())
+	auto iter = m_children.begin();
+	while (iter != m_children.end())
 	{
-		if ((*iter)->NodeChar == c)
+		if ((*iter)->m_nodechar == c)
 			return (*iter);
 	}
 	return NULL;
@@ -83,79 +83,79 @@ WordHandler::WordTreeNode* WordHandler::WordTreeNode::ShallowGetNode(wchar_t c)
 
 bool WordHandler::WordTreeNode::operator==(const WordTreeNode& node)
 {
-	if (this->NodeChar == node.NodeChar)
+	if (this->m_nodechar == node.m_nodechar)
 		return true;
 	return false;
 }
 
 bool WordHandler::WordTreeNode::operator!=(const WordTreeNode& node)
 {
-	if (this->NodeChar == node.NodeChar)
+	if (this->m_nodechar == node.m_nodechar)
 		return false;
 	return true;
 }
 
 WordHandler::WordTree::WordTree()
-: Root(L'\0')
+: m_root(L'\0')
 {
 }
 
 WordHandler::WordTree::~WordTree()
 {
-	Pointers.clear();
+	m_pointers.clear();
 }
 
-void WordHandler::WordTree::AddWord(std::wstring word)
+void WordHandler::WordTree::addWord(std::wstring word)
 {
-	WordTreeNode* current = &Root;
+	WordTreeNode* current = &m_root;
 	WordTreeNode* next = NULL;
 
 	for (int i = 0; i < word.length(); i++)
 	{
-		next = current->ShallowGetNode(word[i]);
+		next = current->shallowGetNode(word[i]);
 		if (next == NULL)
 		{
 			next = new WordTreeNode(word[i], current);
-			current->Children.push_back(next);
+			current->m_children.push_back(next);
 		}
 		current = next;
 	}
 
-	if (!current->ShallowContains(L'\0'))
-		current->Children.push_back(new WordTreeNode(L'\0', current));
+	if (!current->shallowContains(L'\0'))
+		current->m_children.push_back(new WordTreeNode(L'\0', current));
 }
 
-std::wstring WordHandler::WordTree::NextChar(wchar_t c)
+std::wstring WordHandler::WordTree::nextChar(wchar_t c)
 {
-	auto iter = Pointers.begin();
-	while (iter != Pointers.end())
+	auto iter = m_pointers.begin();
+	while (iter != m_pointers.end())
 	{
-		if ((*iter)->ShallowContains(c))
+		if ((*iter)->shallowContains(c))
 		{
-			(*iter) = (*iter)->ShallowGetNode(c);
+			(*iter) = (*iter)->shallowGetNode(c);
 
-			if ((*iter)->ShallowContains(L'\0'))
+			if ((*iter)->shallowContains(L'\0'))
 			{
 				WordTreeNode* word = *iter;
-				Pointers.clear();
-				return GetWord(word);
+				m_pointers.clear();
+				return getWord(word);
 			}
 		}
 		else
 		{
-			iter = Pointers.erase(iter);
+			iter = m_pointers.erase(iter);
 		}
 	}
 
-	if (Root.ShallowContains(c))
-		Pointers.push_back(Root.ShallowGetNode(c));
+	if (m_root.shallowContains(c))
+		m_pointers.push_back(m_root.shallowGetNode(c));
 
 	return L"";
 }
 
-std::wstring WordHandler::WordTree::GetWord(WordTreeNode* node)
+std::wstring WordHandler::WordTree::getWord(WordTreeNode* node)
 {
-	if (node == NULL || node->NodeChar == L'\0')
+	if (node == NULL || node->m_nodechar == L'\0')
 		return L"";
-	return GetWord(node->Parent) + node->NodeChar;
+	return getWord(node->m_parent) + node->m_nodechar;
 }

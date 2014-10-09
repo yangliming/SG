@@ -9,8 +9,8 @@ public:
 	PlayableUnit(int totalhp, int att, int def, std::wstring type);
 	~PlayableUnit();
 
-	virtual void Action() = 0;
-	virtual std::wstring Description() = 0;
+	virtual void action() = 0;
+	virtual std::wstring description() = 0;
 };
 
 #endif // PLAYABLEUNIT_H

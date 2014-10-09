@@ -1,7 +1,7 @@
 #include "GameItem.h"
 
 GameItem::GameItem(std::wstring type)
-: Type(type)
+: m_type(type)
 {
 }
 
@@ -9,26 +9,26 @@ GameItem::~GameItem()
 {
 }
 
-std::wstring GameItem::ToString()
+std::wstring GameItem::toString()
 {
-	return Type;
+	return m_type;
 }
 
 bool GameItem::operator==(const GameItem& other)
 {
-	if (Type == other.Type)
+	if (m_type == other.m_type)
 		return true;
 	return false;
 }
 
 bool GameItem::operator!=(const GameItem& other)
 {
-	if (Type == other.Type)
+	if (m_type == other.m_type)
 		return false;
 	return true;
 }
 
-void GameItem::DecrementCount()
+void GameItem::decrementCount()
 {
 	throw 1;
 }

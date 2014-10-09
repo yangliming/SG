@@ -6,18 +6,18 @@
 class GameUnit
 {
 public:
-	int TotalHp;
-	int CurrentHp;
-	int Attack;
-	int Defense;
-	std::wstring Type;
+	int m_totalhp;
+	int m_currenthp;
+	int m_attack;
+	int m_defense;
+	std::wstring m_type;
 
 	GameUnit(int totalhp, int att, int def, std::wstring type);
 	~GameUnit();
 
-	virtual void Action() = 0;
-	virtual std::wstring Description() = 0;
-	virtual std::wstring ToString();
+	virtual void action() = 0;
+	virtual std::wstring description() = 0;
+	virtual std::wstring toString();
 
 	virtual bool isDefeated();
 };
