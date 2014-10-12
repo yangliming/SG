@@ -2,11 +2,19 @@
 #include <map>
 
 #pragma comment (lib, "d3d11.lib")
+#pragma comment (lib, "d2d1.lib")
+#pragma comment (lib, "dwrite.lib")
 #pragma comment (lib, "d3dcompiler.lib")
 
-#include <d3d11.h>
+#include <d3d11_2.h>
 #include <d3dcompiler.h>
 #include <dxgi.h>
+#include <d2d1_2.h>
+#include <d2d1effects_1.h>
+#include <dwrite_2.h>
+
+#include <wrl.h>
+#include <wincodec.h>
 
 #include "DirectXTK\Inc\WICTextureLoader.h"
 #include <DirectXMath.h>
@@ -15,6 +23,7 @@
 #include <DirectXCollision.h>
 
 using namespace DirectX;
+using namespace Microsoft::WRL;
 
 namespace GraphicHandler
 {
@@ -32,10 +41,10 @@ namespace GraphicHandler
 		WNDCLASSEX WindowClass;
 		HINSTANCE HInstance;
 
-		// DirectX Objects
-		IDXGISwapChain *D3DSwapChain;
-		ID3D11Device *D3DDevice;
-		ID3D11DeviceContext *D3DContext;
+		// D3D Objects
+		IDXGISwapChain* D3DSwapChain;
+		ID3D11Device* D3DDevice;
+		ID3D11DeviceContext* D3DContext;
 		ID3D11RenderTargetView* D3DBackBuffer;
 		ID3D11InputLayout* D3DInputLayout;
 		ID3D11VertexShader* D3DVertexShader;
@@ -141,7 +150,7 @@ namespace GraphicHandler
 			D3D11CreateDeviceAndSwapChain(NULL,
 										  D3D_DRIVER_TYPE_HARDWARE,
 										  NULL,
-										  NULL,
+										  D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 										  NULL,
 										  NULL,
 										  D3D11_SDK_VERSION,
@@ -150,6 +159,8 @@ namespace GraphicHandler
 										  &D3DDevice,
 										  NULL,
 										  &D3DContext);
+
+			
 
 			ID3D11Texture2D* backBuffer;
 

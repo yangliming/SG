@@ -16,6 +16,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	Texture tex(L"background.bmp", 0, 0, 0, 1, 1, true);
 	Texture tex2(L"background.bmp", 1, 1, 1, 3, 3, true);
+	Texture tex3(L"background.bmp", -3, -3, 1, 3, 3, true);
 
 	WPARAM retvalue = GraphicHandler::Update(nullptr, 30);
 	GraphicHandler::CleanUp();

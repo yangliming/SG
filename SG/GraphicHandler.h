@@ -17,6 +17,10 @@ namespace GraphicHandler
 
 	void LoadTexture(std::wstring filename, ID3D11Resource** texture, ID3D11ShaderResourceView** resource);
 	int AddTexture(ID3D11ShaderResourceView* resource, int x, int y, int zlevel, int width, int height, bool draw);
+
+	int AddText(std::wstring text);
+	void RemoveText(int id);
+
 	void RemoveTexture(int id);
 	void ChangeTextureX(int id, int x);
 	void ChangeTextureY(int id, int y);

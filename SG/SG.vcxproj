@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXHandler.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="GraphicHandler.cpp" />
@@ -141,11 +142,13 @@
     <ClCompile Include="WordHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXHandler.h" />
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameUnit.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicHandler.h" />
+    <ClInclude Include="misc.h" />
     <ClInclude Include="PlayableUnit.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Word.h" />
