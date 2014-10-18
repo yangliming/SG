@@ -29,20 +29,4 @@ struct TEXCOORD
 	float U;
 	float V;
 };
-
-struct VERTEX
-{
-	VECTOR3 Position;
-	TEXCOORD TexCoords;
-
-	VERTEX(float x, float y, float z, float u, float v)
-	{
-		Position.X = x;
-		Position.Y = y;
-		Position.Z = z;
-		TexCoords.U = u;
-		TexCoords.V = v;
-	}
-};
-
 #endif // GLOBAL_H

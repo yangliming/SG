@@ -10,48 +10,79 @@
 #include <d3d11_2.h>
 #include <dwrite_2.h>
 
+#include <list>
+#include "DrawObject.h"
+
+class TextureHandler;
+class Camera;
+
 class DirectXHandler
 {
 public:
-	DirectXHandler();
+	DirectXHandler(HWND hwnd, int width, int height);
 	~DirectXHandler();
 
-	void Initialize();
-	void UpdateWindowSize();
+	void initialize();
+	void initScene();
 
-	void SetDpi(float dpi);
+	void render(Camera* cam, TextureHandler* textures, std::list<DrawObject*> toDraw);
+	void present();
 
-	void HandleDeviceLost();
-	void ValidateDevice();
+	ID3D11Device* getD3DDevice();
+	ID3D11DeviceContext* getD3DDeviceContext();
 private:
 
-	// DirectWrite and Windows Imaging Component Objects
-	Microsoft::WRL::ComPtr<IDWriteFactory2> m_dwriteFactory;
-	Microsoft::WRL::ComPtr<IWICImagingFactory> m_wicFactory;
+	// Window Properties
+	HWND m_hwnd;
+	int m_windowHeight;
+	int m_windowWidth;
 
-	// DirectX Core Objects
-	Microsoft::WRL::ComPtr<ID3D11Device2> m_d3dDevice;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext2> m_d3dContext;
-	Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain;
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_d3dRenderTargetView;
-	
-	// Direct2D Objects
-	Microsoft::WRL::ComPtr<ID2D1Factory2> m_d2dFactory;
-	Microsoft::WRL::ComPtr<ID2D1Device1> m_d2dDevice;
-	Microsoft::WRL::ComPtr<ID2D1DeviceContext1> m_d2dContext;
-	Microsoft::WRL::ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
+	// DXGI Objects
+	IDXGISwapChain* m_swapChain;
 
 	// Direct3D Objects
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_d3dDepthStencilView;
+	ID3D11Device* m_d3dDevice;
+	ID3D11DeviceContext* m_d3dContext;
+	ID3D11RenderTargetView* m_d3dRenderTargetView;
+
+	ID3D11VertexShader* m_d3dVertexShader;
+	ID3D11PixelShader* m_d3dPixelShader;
+	
+	ID3D11InputLayout* m_d3dInputLayout;
+	ID3D11SamplerState* m_d3dSamplerState;
+
+	ID3D11Buffer* m_d3dVertexBuffer;
+	ID3D11Buffer* m_d3dCBCamera;
+	ID3D11Buffer* m_d3dCBVertex;
+
+	// Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_d3dDepthStencilView;
+
+	// Direct2D Objects
+	ID2D1Factory2* m_d2dFactory;
+	ID2D1Device1* m_d2dDevice;
+	ID2D1DeviceContext1* m_d2dContext;
+	ID2D1Bitmap1* m_d2dTargetBitmap;
+
+	// DirectWrite Objects
+	IDWriteFactory2* m_dwriteFactory;
+	IDWriteTextFormat1* m_textFormat;
 
 	// Render Properties
 	D3D_FEATURE_LEVEL m_featureLevel;
-	float m_dpi;
-	bool m_windowSizeChangeInProgress;
 
-	void CreateDeviceIndependentResources();
-	void CreateDeviceResources();
-	void CreateWindowSizeDependentResources();
+	// Init Functions
+	void initD3D();
+	void initD2D();
+	void initDirectWrite();
+	void initSwapChain();
+	void initView();
+	void initInterop();
+	void initCamera();
+
+	// Scene Functions
+	void loadShaders();
+	void loadData();
+	void prepareDraw(PDRAWVALS vals);
 };
 
 #endif // DIRECTXHANDLER_H

@@ -131,18 +131,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXHandler.cpp" />
+    <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="GraphicHandler.cpp" />
     <ClCompile Include="PlayableUnit.cpp" />
     <ClCompile Include="SG.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureHandler.cpp" />
     <ClCompile Include="Word.cpp" />
     <ClCompile Include="WordHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXHandler.h" />
+    <ClInclude Include="DrawObject.h" />
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameUnit.h" />
     <ClInclude Include="GameState.h" />
@@ -151,6 +156,7 @@
     <ClInclude Include="misc.h" />
     <ClInclude Include="PlayableUnit.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureHandler.h" />
     <ClInclude Include="Word.h" />
     <ClInclude Include="WordHandler.h" />
   </ItemGroup>
@@ -169,7 +175,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Images\background.bmp" />
+    <Image Include="Images\grass.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTK\DirectXTK_Desktop_2013.vcxproj">
