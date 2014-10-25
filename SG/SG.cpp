@@ -3,8 +3,9 @@
 
 #include "Global.h"
 #include "GraphicHandler.h"
-#include "Texture.h"
-#include "DrawObject.h"
+#include "GameState.h"
+
+void RenderUpdate();
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -12,12 +13,17 @@ int WINAPI WinMain(HINSTANCE hInstance,
                    int nCmdShow)
 {
 	GraphicHandler::Initialize(hInstance);
+	GameState::Initialize();
 	GraphicHandler::ShowWindow(nCmdShow);
+	
+	WPARAM retvalue = GraphicHandler::Update(RenderUpdate);
 
-	DrawObject obj(-5, -4, 0, 9, 9, true, L"grass.bmp");
-	DrawObject obj2(-3, -2, 0, 4, 4, true, L"grass.bmp");
-
-	WPARAM retvalue = GraphicHandler::Update(nullptr, 30);
+	GameState::CleanUp();
 	GraphicHandler::CleanUp();
     return retvalue;
+}
+
+void RenderUpdate()
+{
+	GameState::Update();
 }

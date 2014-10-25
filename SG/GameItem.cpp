@@ -1,7 +1,7 @@
 #include "GameItem.h"
 
 GameItem::GameItem(std::wstring type)
-: m_type(type)
+	: m_type(type)
 {
 }
 

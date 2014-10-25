@@ -54,6 +54,7 @@ WordHandler::WordTreeNode::~WordTreeNode()
 			delete (*iter);
 			(*iter) = NULL;
 		}
+		iter++;
 	}
 }
 
@@ -65,6 +66,7 @@ bool WordHandler::WordTreeNode::shallowContains(wchar_t c) const
 	{
 		if ((*iter)->m_nodechar == c)
 			return true;
+		iter++;
 	}
 	return false;
 }
@@ -77,6 +79,7 @@ WordHandler::WordTreeNode* WordHandler::WordTreeNode::shallowGetNode(wchar_t c)
 	{
 		if ((*iter)->m_nodechar == c)
 			return (*iter);
+		iter++;
 	}
 	return NULL;
 }
@@ -145,6 +148,7 @@ std::wstring WordHandler::WordTree::nextChar(wchar_t c)
 		{
 			iter = m_pointers.erase(iter);
 		}
+		iter++;
 	}
 
 	if (m_root.shallowContains(c))

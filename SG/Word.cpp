@@ -5,6 +5,10 @@ Word::Word(std::wstring word)
 {
 }
 
+Word::~Word()
+{
+}
+
 std::wstring Word::toString()
 {
 	return m_word;

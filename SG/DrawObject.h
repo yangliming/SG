@@ -18,7 +18,7 @@ class DrawObject
 {
 public:
 	DrawObject(float x, float y, float z, float width, float height, bool draw, std::wstring filename);
-	~DrawObject();
+	virtual ~DrawObject();
 
 	PDRAWVALS GetDrawValues();
 
@@ -40,7 +40,7 @@ public:
 	bool getDraw() const;
 	std::wstring getFilename() const;
 
-	// virtual std::wstring toString();
+	virtual std::wstring toString() = 0;
 
 private:
 	std::wstring m_filename;

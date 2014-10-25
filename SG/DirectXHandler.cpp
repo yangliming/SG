@@ -183,6 +183,8 @@ void DirectXHandler::initD2D()
 	DX::ThrowIfFailed(
 		m_d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &m_d2dContext)
 	);
+
+	SafeRelease(&dxgiDevice);
 }
 
 void DirectXHandler::initDirectWrite()
@@ -213,8 +215,6 @@ void DirectXHandler::initDirectWrite()
 	DX::ThrowIfFailed(
 		m_textFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER)
 	);
-
-
 }
 
 void DirectXHandler::initSwapChain()
@@ -261,6 +261,10 @@ void DirectXHandler::initSwapChain()
 	DX::ThrowIfFailed(
 		dxgiFactory->CreateSwapChain(m_d3dDevice, &swapChainDesc, &m_swapChain)
 	);
+
+	SafeRelease(&dxgiDevice);
+	SafeRelease(&dxgiAdaptor);
+	SafeRelease(&dxgiFactory);
 }
 
 void DirectXHandler::initView()
@@ -304,7 +308,7 @@ void DirectXHandler::initInterop()
 			&bitmapProperties,
 			&m_d2dTargetBitmap)
 	);
-	dxgiBackBuffer->Release();
+	SafeRelease(&dxgiBackBuffer);
 
 	m_d2dContext->SetTarget(m_d2dTargetBitmap);
 	m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
@@ -475,250 +479,3 @@ void DirectXHandler::prepareDraw(PDRAWVALS vals)
 	m_d3dContext->UpdateSubresource(m_d3dCBVertex, 0, nullptr, vX, 0, 0);
 	m_d3dContext->VSSetConstantBuffers(1, 1, &m_d3dCBVertex);
 }
-
-/*
-void DirectXHandler::CreateDeviceIndependentResources()
-{
-	D2D1_FACTORY_OPTIONS options;
-	ZeroMemory(&options, sizeof(D2D1_FACTORY_OPTIONS));
-
-#if defined(_DEBUG)
-	options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
-#endif
-
-
-	DX::ThrowIfFailed(
-		D2D1CreateFactory(
-		D2D1_FACTORY_TYPE_SINGLE_THREADED,
-		__uuidof(ID2D1Factory),
-		&options,
-		&m_d2dFactory)
-		);
-
-
-	DX::ThrowIfFailed(
-		DWriteCreateFactory(
-		DWRITE_FACTORY_TYPE_SHARED,
-		__uuidof(IDWriteFactory),
-		&m_dwriteFactory)
-		);
-
-	DX::ThrowIfFailed(
-		CoInitialize(NULL)
-		);
-
-	DX::ThrowIfFailed(
-		CoCreateInstance(
-		CLSID_WICImagingFactory,
-		nullptr,
-		CLSCTX_INPROC_SERVER,
-		IID_PPV_ARGS(&m_wicFactory))
-		);
-}
-
-void DirectXHandler::CreateDeviceResources()
-{
-	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-	ComPtr<IDXGIDevice> dxgiDevice;
-
-#if defined(_DEBUG)
-	if (DX::SdkLayersAvailable())
-	{
-		creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-	}
-#endif
-
-	D3D_FEATURE_LEVEL featureLevels[] =
-	{
-		D3D_FEATURE_LEVEL_11_1,
-		D3D_FEATURE_LEVEL_11_0,
-		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_10_0,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1
-	};
-
-	ComPtr<ID3D11Device> device;
-	ComPtr<ID3D11DeviceContext> context;
-	ComPtr<IDXGISwapChain> swapChain;
-
-	DX::ThrowIfFailed(
-		D3D11CreateDevice(
-			nullptr,
-			D3D_DRIVER_TYPE_HARDWARE,
-			0,
-			creationFlags,
-			featureLevels,
-			ARRAYSIZE(featureLevels),
-			D3D11_SDK_VERSION,
-			&device,
-			&m_featureLevel,
-			&context)
-	);
-
-	
-	DX::ThrowIfFailed(
-		device.As(&m_d3dDevice)
-	);
-
-	DX::ThrowIfFailed(
-		context.As(&m_d3dContext)
-	);
-
-	DX::ThrowIfFailed(
-		m_d3dDevice.As(&dxgiDevice)
-	);
-
-	DX::ThrowIfFailed(
-		m_d2dFactory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice)
-	);
-
-	DX::ThrowIfFailed(
-		m_d2dDevice->CreateDeviceContext(
-			D2D1_DEVICE_CONTEXT_OPTIONS_NONE,
-			&m_d2dContext)
-	);
-	
-}
-
-void DirectXHandler::CreateWindowSizeDependentResources()
-{
-	if (m_swapChain != nullptr)
-	{
-		DX::ThrowIfFailed(
-			m_swapChain->ResizeBuffers(2, 0, 0, DXGI_FORMAT_B8G8R8A8_UNORM, 0)
-		);
-	}
-	else
-	{
-		DXGI_MODE_DESC bufferDesc;
-		ZeroMemory(&bufferDesc, sizeof(DXGI_MODE_DESC));
-
-		bufferDesc.Width = m_windowWidth;
-		bufferDesc.Height = m_windowHeight;
-		bufferDesc.RefreshRate.Numerator = 60;
-		bufferDesc.RefreshRate.Denominator = 1;
-		bufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-		bufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		bufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-
-		DXGI_SWAP_CHAIN_DESC swapChainDesc;
-		ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
-
-		swapChainDesc.BufferCount = 2;
-		swapChainDesc.BufferDesc = bufferDesc;
-		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapChainDesc.OutputWindow = m_hwnd;
-		swapChainDesc.SampleDesc.Count = 1;
-		swapChainDesc.SampleDesc.Quality = 0;
-		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-		swapChainDesc.Windowed = TRUE;
-
-		
-		ComPtr<IDXGIDevice1> dxgiDevice;
-		DX::ThrowIfFailed(
-			m_d3dDevice.As(&dxgiDevice)
-		);
-
-		ComPtr<IDXGIAdapter> dxgiAdapter;
-		DX::ThrowIfFailed(
-			dxgiDevice->GetAdapter(&dxgiAdapter)
-		);
-
-		ComPtr<IDXGIFactory2> dxgiFactory;
-		DX::ThrowIfFailed(
-			dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory))
-		);
-
-		ComPtr<IDXGISwapChain> swapChain;
-		DX::ThrowIfFailed(
-			dxgiFactory->CreateSwapChain(
-				m_d3dDevice.Get(),
-				&swapChainDesc, 
-				&swapChain)
-		);
-
-		DX::ThrowIfFailed(
-			swapChain.As(&m_swapChain)
-		);
-
-		DX::ThrowIfFailed(
-			dxgiDevice->SetMaximumFrameLatency(1)
-		);
-		
-	}
-
-	ComPtr<ID3D11Texture2D> backBuffer;
-	DX::ThrowIfFailed(
-		m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer))
-	);
-
-	DX::ThrowIfFailed(
-		m_d3dDevice->CreateRenderTargetView(
-			backBuffer.Get(),
-			nullptr,
-			&m_d3dRenderTargetView)
-	);
-
-	D3D11_TEXTURE2D_DESC backBufferDesc;
-	backBuffer->GetDesc(&backBufferDesc);
-
-	CD3D11_TEXTURE2D_DESC depthStencilDesc(
-		DXGI_FORMAT_D24_UNORM_S8_UINT,
-		backBufferDesc.Width,
-		backBufferDesc.Height,
-		1,
-		1,
-		D3D11_BIND_DEPTH_STENCIL
-	);
-
-	ComPtr<ID3D11Texture2D> depthStencil;
-	DX::ThrowIfFailed(
-		m_d3dDevice->CreateTexture2D(
-			&depthStencilDesc,
-			nullptr,
-			&depthStencil)
-	);
-
-	auto viewDesc = CD3D11_DEPTH_STENCIL_VIEW_DESC(D3D11_DSV_DIMENSION_TEXTURE2D);
-	DX::ThrowIfFailed(
-		m_d3dDevice->CreateDepthStencilView(
-			depthStencil.Get(),
-			&viewDesc,
-			&m_d3dDepthStencilView)
-	);
-
-	CD3D11_VIEWPORT viewport(
-		0.0f,
-		0.0f,
-		static_cast<float>(backBufferDesc.Width),
-		static_cast<float>(backBufferDesc.Height)
-	);
-
-	m_d3dContext->RSSetViewports(1, &viewport);
-
-	D2D1_BITMAP_PROPERTIES1 bitmapProperties =
-		D2D1::BitmapProperties1(
-			D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
-			D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED),
-			m_dpi,
-			m_dpi
-	);
-
-	ComPtr<IDXGISurface> dxgiBackBuffer;
-	DX::ThrowIfFailed(
-		m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer))
-	);
-
-	DX::ThrowIfFailed(
-		m_d2dContext->CreateBitmapFromDxgiSurface(
-			dxgiBackBuffer.Get(),
-			&bitmapProperties,
-			&m_d2dTargetBitmap)
-	);
-
-	// m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
-	m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
-}
-*/

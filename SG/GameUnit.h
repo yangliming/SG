@@ -4,7 +4,7 @@
 #include <string>
 #include "DrawObject.h"
 
-class GameUnit : DrawObject
+class GameUnit : public DrawObject
 {
 public:
 	int m_totalhp;

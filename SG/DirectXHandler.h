@@ -20,7 +20,7 @@ class DirectXHandler
 {
 public:
 	DirectXHandler(HWND hwnd, int width, int height);
-	~DirectXHandler();
+	virtual ~DirectXHandler();
 
 	void initialize();
 	void initScene();

@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+class Word;
+
 class WordHandler
 {
 public:

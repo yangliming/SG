@@ -15,7 +15,7 @@ namespace GraphicHandler
 {
 	void Initialize(HINSTANCE hInstance);
 	void ShowWindow(int nCmdShow);
-	WPARAM Update(void (*Render)(void), int fps);
+	WPARAM Update(void (*Render)(void));
 	void CleanUp();
 
 	TIID LoadTexture(std::wstring filename);

@@ -3,14 +3,14 @@
 
 #include "GameUnit.h"
 
-class PlayableUnit : GameUnit
+class PlayableUnit : public GameUnit
 {
 public:
 	PlayableUnit(int totalhp, int att, int def, std::wstring type);
 	~PlayableUnit();
 
-	virtual void action() = 0;
-	virtual std::wstring description() = 0;
+	virtual void action();
+	virtual std::wstring description();
 };
 
 #endif // PLAYABLEUNIT_H

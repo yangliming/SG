@@ -3,6 +3,7 @@
 #include "DirectXHandler.h"
 #include "TextureHandler.h"
 #include "Camera.h"
+#include "GameState.h"
 
 #include <DirectXMath.h>
 
@@ -13,9 +14,10 @@ namespace GraphicHandler
 	// Private Members
 	namespace
 	{
-		DirectXHandler* XHandler;
-		TextureHandler* THandler;
-		Camera* CHandler;
+		DirectXHandler* XHandler = nullptr;
+		TextureHandler* THandler = nullptr;
+		Camera* CHandler = nullptr;
+
 		std::list<DrawObject*> DrawHandler;
 
 		// Constants
@@ -29,31 +31,14 @@ namespace GraphicHandler
 		WNDCLASSEX WindowClass;
 		HINSTANCE HInstance;
 
-		// GraphicHandler Types
-		struct GraphicHandlerTexture
-		{
-			TIID tID;
-			float X;
-			float Y;
-			float ZLevel;
-			float Width;
-			float Height;
-			bool Draw;
-		};
-
-		// GraphicHandler Objects
-		std::map<int, GraphicHandlerTexture> GraphicObjects;
-		int NextID;
-
 		LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
-			switch(message)
+			GameState::HandleInput(message, wParam, lParam);
+
+			if (message == WM_DESTROY)
 			{
-				case WM_DESTROY:
-					{
-						PostQuitMessage(0);
-						return 0;
-					} break;
+				PostQuitMessage(0);
+				return 0;
 			}
 
 			return DefWindowProc (hWnd, message, wParam, lParam);
@@ -99,7 +84,6 @@ namespace GraphicHandler
 		XHandler->initScene();
 
 		THandler = new TextureHandler(XHandler->getD3DDevice(), XHandler->getD3DDeviceContext());
-		THandler->loadTexture(L"background.bmp");
 
 		CHandler = new Camera();
 		CHandler->setPosition(0, 0, 0);
@@ -108,21 +92,19 @@ namespace GraphicHandler
 			XMFLOAT3(0.0f, 0.0f, 0.0f),
 			XMFLOAT3(0.0f, 1.0f, 0.0f));
 		CHandler->setOrthoProj(
-			10,
-			10,
+			800,
+			600,
 			-1,
 			1);
-
-		GraphicObjects.clear();
 	}
 
 	void CleanUp()
 	{
 		CoUninitialize();
 
-		delete XHandler;
-		delete THandler;
 		delete CHandler;
+		delete THandler;
+		delete XHandler;
 	}
 
 	void ShowWindow(int nCmdShow)
@@ -130,7 +112,7 @@ namespace GraphicHandler
 		ShowWindow(HWnd, nCmdShow);
 	}
 
-	WPARAM Update(void (*Render)(void), int fps)
+	WPARAM Update(void (*Render)(void))
 	{
 		MSG msg;
 		while(TRUE)
@@ -142,6 +124,11 @@ namespace GraphicHandler
 
 				if(msg.message == WM_QUIT)
 					break;
+			}
+
+			if (Render)
+			{
+				(*Render)();
 			}
 
 			XHandler->render(CHandler, THandler, DrawHandler);

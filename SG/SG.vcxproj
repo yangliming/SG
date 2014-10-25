@@ -131,20 +131,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXHandler.cpp" />
     <ClCompile Include="DrawObject.cpp" />
     <ClCompile Include="GameItem.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="Words.cpp" />
+    <ClInclude Include="GameTime.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClCompile Include="GameUnit.cpp" />
     <ClCompile Include="GraphicHandler.cpp" />
     <ClCompile Include="PlayableUnit.cpp" />
     <ClCompile Include="SG.cpp" />
-    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureHandler.cpp" />
     <ClCompile Include="Word.cpp" />
     <ClCompile Include="WordHandler.cpp" />
+    <ClInclude Include="Words.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXHandler.h" />
     <ClInclude Include="DrawObject.h" />
@@ -155,7 +163,6 @@
     <ClInclude Include="GraphicHandler.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="PlayableUnit.h" />
-    <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureHandler.h" />
     <ClInclude Include="Word.h" />
     <ClInclude Include="WordHandler.h" />
@@ -175,7 +182,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Images\grass.bmp" />
+    <Image Include="Images\background.png" />
+    <Image Include="Images\grass.bmp">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </Image>
+    <Image Include="Images\person.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTK\DirectXTK_Desktop_2013.vcxproj">
