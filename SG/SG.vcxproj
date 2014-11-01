@@ -135,14 +135,16 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXHandler.cpp" />
     <ClCompile Include="DrawObject.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Words.cpp" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="GameTime.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClCompile Include="GameUnit.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicHandler.cpp" />
     <ClCompile Include="PlayableUnit.cpp" />
     <ClCompile Include="SG.cpp" />
@@ -157,7 +159,7 @@
     <ClInclude Include="DirectXHandler.h" />
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="GameItem.h" />
-    <ClInclude Include="GameUnit.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicHandler.h" />
@@ -183,6 +185,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\background.png" />
+    <Image Include="Images\explosion0.png" />
+    <Image Include="Images\explosion1.png" />
+    <Image Include="Images\explosion2.png" />
+    <Image Include="Images\explosion3.png" />
     <Image Include="Images\grass.bmp">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </Image>

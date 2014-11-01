@@ -1,15 +1,15 @@
 #ifndef PLAYABLEUNIT_H
 #define PLAYABLEUNIT_H
 
-#include "GameUnit.h"
+#include "GameObject.h"
 
-class PlayableUnit : public GameUnit
+class PlayableUnit : public GameObject
 {
 public:
 	PlayableUnit(int totalhp, int att, int def, std::wstring type);
 	~PlayableUnit();
 
-	virtual void action();
+	virtual void action(float totalticks, float deltaticks);
 	virtual std::wstring description();
 };
 

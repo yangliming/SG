@@ -33,9 +33,6 @@
     <ClCompile Include="WordHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameUnit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayableUnit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,6 +63,12 @@
     <ClCompile Include="Words.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -81,9 +84,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Word.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameUnit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayableUnit.h">
@@ -116,6 +116,12 @@
     <ClInclude Include="Words.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -133,6 +139,18 @@
       <Filter>Images</Filter>
     </Image>
     <Image Include="Images\person.png">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="Images\explosion0.png">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="Images\explosion1.png">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="Images\explosion2.png">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="Images\explosion3.png">
       <Filter>Images</Filter>
     </Image>
   </ItemGroup>

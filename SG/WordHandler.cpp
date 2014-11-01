@@ -13,6 +13,7 @@ WordHandler::~WordHandler()
 	while (iter != m_words.end())
 	{
 		delete iter->second;
+		iter++;
 	}
 }
 
@@ -40,19 +41,13 @@ WordHandler::WordTreeNode::WordTreeNode(wchar_t c, WordTreeNode* parent)
 
 WordHandler::WordTreeNode::~WordTreeNode()
 {
-	if (m_parent != NULL)
-	{
-		delete m_parent;
-		m_parent = NULL;
-	}
-
 	auto iter = m_children.begin();
 	while (iter != m_children.end())
 	{
-		if (*iter != NULL)
+		if (*iter != nullptr)
 		{
 			delete (*iter);
-			(*iter) = NULL;
+			(*iter) = nullptr;
 		}
 		iter++;
 	}
