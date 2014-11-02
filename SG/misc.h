@@ -1,18 +1,27 @@
 #ifndef MISC_H
 #define MISC_H
 
-#include <Windows.h>
-#include <d3d11_2.h>
+#define DEPTH_LVL_0 0.0f
+#define DEPTH_LVL_1 1.0f
+#define DEPTH_LVL_2 2.0f
+#define DEPTH_LVL_3 3.0f
+#define DEPTH_LVL_4 4.0f
+#define DEPTH_LVL_5 5.0f
+#define DEPTH_LVL_6 6.0f
+#define DEPTH_LVL_7 7.0f
+#define DEPTH_LVL_8 8.0f
+#define DEPTH_LVL_9 9.0f
+
+#define SEC_TO_TICK 100.0f
 
 template <class T> void SafeRelease(T **ppT)
 {
 	if (*ppT)
 	{
 		(*ppT)->Release();
-		*ppT = NULL;
+		*ppT = nullptr;
 	}
 }
-
 
 namespace DX
 {
@@ -25,6 +34,10 @@ namespace DX
 	}
 
 #if defined(_DEBUG)
+
+#include <Windows.h>
+#include <d3d11_2.h>
+
 	// Check for SDK Layer support.
 	inline bool SdkLayersAvailable()
 	{

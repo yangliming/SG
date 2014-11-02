@@ -1,8 +1,9 @@
 #include "Explosion.h"
 #include "GameState.h"
+#include "misc.h"
 
 Explosion::Explosion()
-	: GameObject(0, 0, 0, L"Explosion", 10, 10, 0, 100, 100, true, L"explosion0.png"),
+	: GameObject(0, 0, 0, L"Explosion", 10, 10, DEPTH_LVL_0, 100, 100, true, L"explosion0.png"),
 	m_start(-1.0f)
 {
 	this->setFilename(L"explosion1.png");

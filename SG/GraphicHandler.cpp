@@ -94,8 +94,8 @@ namespace GraphicHandler
 		CHandler->setOrthoProj(
 			800,
 			600,
-			-1,
-			1);
+			0,
+			10);
 	}
 
 	void CleanUp()

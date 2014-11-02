@@ -161,7 +161,6 @@
     <ClInclude Include="GameItem.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameState.h" />
-    <ClInclude Include="Global.h" />
     <ClInclude Include="GraphicHandler.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="PlayableUnit.h" />

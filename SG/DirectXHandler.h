@@ -51,11 +51,13 @@ private:
 	ID3D11InputLayout* m_d3dInputLayout;
 	ID3D11SamplerState* m_d3dSamplerState;
 
+	ID3D11DepthStencilView* m_d3dDepthStencilView;
+	ID3D11Texture2D* m_d3dDepthStencilBuffer;
+	ID3D11BlendState* m_d3dBlendState;
+
 	ID3D11Buffer* m_d3dVertexBuffer;
 	ID3D11Buffer* m_d3dCBCamera;
 	ID3D11Buffer* m_d3dCBVertex;
-
-	// Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_d3dDepthStencilView;
 
 	// Direct2D Objects
 	ID2D1Factory2* m_d2dFactory;

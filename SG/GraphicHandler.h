@@ -1,7 +1,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "Global.h"
 #include <windows.h>
 #include <d3d11.h>
 #include <string>

@@ -1,6 +1,5 @@
 #include "DirectXHandler.h"
 #include "misc.h"
-#include "Global.h"
 #include "TextureHandler.h"
 #include "Camera.h"
 
@@ -11,6 +10,19 @@
 #pragma comment (lib, "d2d1.lib")
 #pragma comment (lib, "dwrite.lib")
 #pragma comment (lib, "d3dcompiler.lib")
+
+struct VECTOR3
+{
+	float X;
+	float Y;
+	float Z;
+};
+
+struct TEXCOORD
+{
+	float U;
+	float V;
+};
 
 struct VERTEX
 {
@@ -55,6 +67,9 @@ DirectXHandler::~DirectXHandler()
 	SafeRelease(&m_d3dInputLayout);
 	SafeRelease(&m_d3dSamplerState);
 	SafeRelease(&m_d3dVertexBuffer);
+	SafeRelease(&m_d3dDepthStencilView);
+	SafeRelease(&m_d3dDepthStencilBuffer);
+	SafeRelease(&m_d3dBlendState);
 	SafeRelease(&m_d3dCBCamera);
 	SafeRelease(&m_d3dCBVertex);
 
@@ -89,6 +104,10 @@ void DirectXHandler::render(Camera* cam, TextureHandler* textures, std::list<Dra
 {
 	float color[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_d3dContext->ClearRenderTargetView(m_d3dRenderTargetView, color);
+	m_d3dContext->ClearDepthStencilView(m_d3dDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	float blendFactor[] = { 0.75f, 0.75f, 0.75f, 1.0f };
+	m_d3dContext->OMSetBlendState(m_d3dBlendState, blendFactor, 0xffffffff);
 
 	XMMATRIX m_wvp = cam->getMatrix();
 	m_d3dContext->UpdateSubresource(m_d3dCBCamera, 0, nullptr, &m_wvp, 0, 0);
@@ -155,6 +174,51 @@ void DirectXHandler::initD3D()
 			&m_d3dDevice,
 			&m_featureLevel,
 			&m_d3dContext)
+	);
+
+	D3D11_TEXTURE2D_DESC depthStencilDesc;
+	ZeroMemory(&depthStencilDesc, sizeof(D3D11_TEXTURE2D_DESC));
+
+	depthStencilDesc.Width = m_windowWidth;
+	depthStencilDesc.Height = m_windowHeight;
+	depthStencilDesc.MipLevels = 1;
+	depthStencilDesc.ArraySize = 1;
+	depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilDesc.SampleDesc.Count = 1;
+	depthStencilDesc.SampleDesc.Quality = 0;
+	depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthStencilDesc.CPUAccessFlags = 0;
+	depthStencilDesc.MiscFlags = 0;
+
+	DX::ThrowIfFailed(
+		m_d3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &m_d3dDepthStencilBuffer)
+	);
+
+	DX::ThrowIfFailed(
+		m_d3dDevice->CreateDepthStencilView(m_d3dDepthStencilBuffer, nullptr, &m_d3dDepthStencilView)
+	);
+
+	D3D11_BLEND_DESC blendDesc;
+	ZeroMemory(&blendDesc, sizeof(D3D11_BLEND_DESC));
+
+	D3D11_RENDER_TARGET_BLEND_DESC rtbd;
+	ZeroMemory(&rtbd, sizeof(D3D11_RENDER_TARGET_BLEND_DESC));
+
+	rtbd.BlendEnable = true;
+	rtbd.SrcBlend = D3D11_BLEND_SRC_COLOR;
+	rtbd.DestBlend = D3D11_BLEND_BLEND_FACTOR;
+	rtbd.BlendOp = D3D11_BLEND_OP_ADD;
+	rtbd.SrcBlendAlpha = D3D11_BLEND_ONE;
+	rtbd.DestBlendAlpha = D3D11_BLEND_ZERO;
+	rtbd.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	rtbd.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	blendDesc.AlphaToCoverageEnable = false;
+	blendDesc.RenderTarget[0] = rtbd;
+
+	DX::ThrowIfFailed(
+		m_d3dDevice->CreateBlendState(&blendDesc, &m_d3dBlendState)
 	);
 }
 
@@ -275,8 +339,7 @@ void DirectXHandler::initView()
 	m_d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &m_d3dRenderTargetView);
 	backBuffer->Release();
 
-		// add depth stencil view here
-	m_d3dContext->OMSetRenderTargets(1, &m_d3dRenderTargetView, nullptr);
+	m_d3dContext->OMSetRenderTargets(1, &m_d3dRenderTargetView, m_d3dDepthStencilView);
 
 	CD3D11_VIEWPORT viewport;
 	ZeroMemory(&viewport, sizeof(CD3D11_VIEWPORT));
@@ -284,6 +347,8 @@ void DirectXHandler::initView()
 	viewport.TopLeftY = 0;
 	viewport.Width = m_windowWidth;
 	viewport.Height = m_windowHeight;
+	viewport.MaxDepth = D3D11_MAX_DEPTH;
+	viewport.MinDepth = D3D11_MIN_DEPTH;
 
 	m_d3dContext->RSSetViewports(1, &viewport);
 }
@@ -378,12 +443,12 @@ void DirectXHandler::loadShaders()
 
 	DX::ThrowIfFailed(
 		m_d3dDevice->CreateInputLayout(
-		layout,
-		ARRAYSIZE(layout),
-		VertexShaderBlob->GetBufferPointer(),
-		VertexShaderBlob->GetBufferSize(),
-		&m_d3dInputLayout)
-		);
+			layout,
+			ARRAYSIZE(layout),
+			VertexShaderBlob->GetBufferPointer(),
+			VertexShaderBlob->GetBufferSize(),
+			&m_d3dInputLayout)
+	);
 
 	m_d3dContext->IASetInputLayout(m_d3dInputLayout);
 	m_d3dContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);

@@ -1,7 +1,6 @@
 #include <windows.h>
 #include <windowsx.h>
 
-#include "Global.h"
 #include "GraphicHandler.h"
 #include "GameState.h"
 
