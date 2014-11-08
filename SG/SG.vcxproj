@@ -76,6 +76,7 @@
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -84,6 +85,9 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -131,7 +135,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXHandler.cpp" />
     <ClCompile Include="DrawObject.cpp" />
@@ -139,7 +142,11 @@
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="GenericSceneObject.cpp" />
+    <ClCompile Include="Ground.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Words.cpp" />
+    <ClInclude Include="Collideable.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="GameTime.h">
       <FileType>CppCode</FileType>
@@ -151,10 +158,12 @@
     <ClCompile Include="TextureHandler.cpp" />
     <ClCompile Include="Word.cpp" />
     <ClCompile Include="WordHandler.cpp" />
+    <ClInclude Include="GenericSceneObject.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Words.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Background.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXHandler.h" />
     <ClInclude Include="DrawObject.h" />
@@ -191,6 +200,7 @@
     <Image Include="Images\grass.bmp">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
     </Image>
+    <Image Include="Images\ground.bmp" />
     <Image Include="Images\person.png" />
   </ItemGroup>
   <ItemGroup>

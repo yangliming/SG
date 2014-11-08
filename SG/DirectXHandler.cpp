@@ -106,8 +106,8 @@ void DirectXHandler::render(Camera* cam, TextureHandler* textures, std::list<Dra
 	m_d3dContext->ClearRenderTargetView(m_d3dRenderTargetView, color);
 	m_d3dContext->ClearDepthStencilView(m_d3dDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	float blendFactor[] = { 0.75f, 0.75f, 0.75f, 1.0f };
-	m_d3dContext->OMSetBlendState(m_d3dBlendState, blendFactor, 0xffffffff);
+	//float blendFactor[] = { 0.75f, 0.75f, 0.75f, 1.0f };
+	//m_d3dContext->OMSetBlendState(m_d3dBlendState, blendFactor, 0xffffffff);
 
 	XMMATRIX m_wvp = cam->getMatrix();
 	m_d3dContext->UpdateSubresource(m_d3dCBCamera, 0, nullptr, &m_wvp, 0, 0);

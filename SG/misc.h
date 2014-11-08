@@ -14,6 +14,12 @@
 
 #define SEC_TO_TICK 100.0f
 
+struct Vector2
+{
+	float X;
+	float Y;
+};
+
 template <class T> void SafeRelease(T **ppT)
 {
 	if (*ppT)

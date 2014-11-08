@@ -1,40 +1,82 @@
 #include "GameState.h"
-#include "Background.h"
 #include "PlayableUnit.h"
 #include "GameTime.h"
+#include "SceneObject.h"
 #include "Word.h"
 #include "Words.h"
 #include "WordHandler.h"
+#include "Ground.h"
 #include "misc.h"
 #include <list>
 
 using namespace std;
+using namespace DirectX;
 
 namespace GameState
 {
 	namespace
 	{
 		PlayableUnit* Player;
-		Background* Scenery;
 		GameTime* GameTimer;
 		WordHandler* WHandler;
+		Ground* DirtGround;
 
 		list<GameObject*> GameObjects;
+		list<SceneObject*> SceneObjects;
 
 		bool UpKey;
 		bool DownKey;
 		bool LeftKey;
 		bool RightKey;
+
+		float CheckCollision(Collideable* obj1, Collideable* obj2, XMFLOAT2 dir)
+		{
+			XMFLOAT2 bl(D3D11_FLOAT32_MAX, D3D11_FLOAT32_MAX);
+			XMFLOAT2 br(3.4e-37f, D3D11_FLOAT32_MAX);
+
+			auto b1 = obj1->getBounds();
+			auto b2 = obj2->getBounds();
+
+			for (auto iter = b1.begin(); iter != b1.end(); iter++)
+			{
+				if (iter->x < bl.x)
+					bl.x = iter->x;
+				if (iter->x > br.x)
+					br.x = iter->x;
+				if (iter->y < bl.y)
+					br.y = bl.y = iter->y;
+			}
+
+			auto t1 = obj1->m_transform;
+			auto t2 = obj2->m_transform;
+
+			bl.x += t1.x;
+			br.x += t1.x;
+			bl.y += t1.y;
+			br.y += t1.y;
+
+			float dy = dir.y;
+
+			for (auto iter = b2.begin(); iter != b2.end(); iter++)
+			{
+				if (iter->y + t2.y >= bl.y)
+				{
+					return (iter->y + t2.y - bl.y);
+				}
+			}
+
+			return dy;
+		}
 	}
 
 	void Initialize()
 	{
 		GameTimer = new GameTime();
 		WHandler = new WordHandler();
+		DirtGround = new Ground(-200, -200);
 
 		WHandler->addWord(new Strength());
 
-		Scenery = new Background(-400, -300, 800, 600, L"background.png");
 		Player = new PlayableUnit(10, 1, 1, L"player1");
 
 		GameObjects.clear();
@@ -56,11 +98,16 @@ namespace GameState
 		if (UpKey)
 			Player->move(0, dt * MOVE_AMT, 0);
 		if (DownKey)
-			Player->move(0, -dt * MOVE_AMT, 0);
+		{
+			float dm = CheckCollision(Player, DirtGround, XMFLOAT2(0, -dt * MOVE_AMT));
+			Player->move(0, dm, 0);
+		}
 		if (LeftKey)
 			Player->move(-dt * MOVE_AMT, 0, 0);
 		if (RightKey)
 			Player->move(dt * MOVE_AMT, 0, 0);
+
+		Player->action(tt, dt);
 
 		auto iter = GameObjects.begin();
 		while (iter != GameObjects.end())
@@ -68,11 +115,17 @@ namespace GameState
 			(*iter)->action(tt, dt);
 			iter++;
 		}
+
+		auto iter2 = SceneObjects.begin();
+		while (iter2 != SceneObjects.end())
+		{
+			(*iter2)->update(tt, dt);
+			iter2++;
+		}
 	}
 
 	void CleanUp()
 	{
-		delete Scenery;
 		delete Player;
 		delete WHandler;
 		delete GameTimer;
@@ -88,6 +141,11 @@ namespace GameState
 	void AddGameObject(GameObject* obj)
 	{
 		GameObjects.push_back(obj);
+	}
+
+	void AddSceneObject(SceneObject* obj)
+	{
+		SceneObjects.push_back(obj);
 	}
 
 	void HandleInput(UINT message, WPARAM wParam, LPARAM lParam)

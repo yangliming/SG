@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 class GameObject;
+class SceneObject;
 
 namespace GameState
 {
@@ -12,6 +13,7 @@ namespace GameState
 	void CleanUp();
 
 	void AddGameObject(GameObject* obj);
+	void AddSceneObject(SceneObject* obj);
 
 	void HandleInput(UINT message, WPARAM wParam, LPARAM lParam);
 }

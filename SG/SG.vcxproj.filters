@@ -54,9 +54,6 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,6 +64,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericSceneObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,9 +110,6 @@
     <ClInclude Include="DrawObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Background.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,6 +120,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collideable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericSceneObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -148,6 +163,9 @@
       <Filter>Images</Filter>
     </Image>
     <Image Include="Images\explosion3.png">
+      <Filter>Images</Filter>
+    </Image>
+    <Image Include="Images\ground.bmp">
       <Filter>Images</Filter>
     </Image>
   </ItemGroup>
